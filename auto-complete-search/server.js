@@ -104,11 +104,19 @@ const HOST = "server.com/";
 
 const searchInput = document.getElementsByClassName("search__bar__input")[0];
 
+function createSuggestionElement({suggestion, auxiliaryData}){
+    const auxiliaryString = auxiliaryData ? ` - ${auxiliaryData}` : "";
+    return `<li class="search__suggestions__list__result">${suggestion}${auxiliaryString}</li>`;
+}
+
 function onSuggestionsResponse(data){
     const suggestionsElement = document.getElementsByClassName("search__suggestions__list")[0];
     let suggestionsHTML = "";
     for (const suggestion of data){
-        suggestionsHTML += (suggestion.suggestion + ' - ' + suggestion.auxiliary + '<br>')
+        suggestionsHTML += createSuggestionElement({
+            suggestion: suggestion.suggestion, 
+            auxiliaryData: suggestion.auxiliary
+        });
     }
     suggestionsElement.innerHTML = suggestionsHTML;
 }
